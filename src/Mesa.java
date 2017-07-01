@@ -14,7 +14,6 @@ public class Mesa implements Runnable {
 	private static Semaphore mutexRecurso3 = new Semaphore(1);
 	private static Semaphore mutexRecurso4 = new Semaphore(1);
 	private static Semaphore mutexRecurso5 = new Semaphore(1);
-	private static int nFilosofo = 0;
 	private Socket csocket;
 	
 	public static void main(String[] args){
@@ -27,7 +26,6 @@ public class Mesa implements Runnable {
 			while (true) {
 		    	Socket sock = ssock.accept();
 		        System.out.println("Pedido anotado! (conectado)");
-		        nFilosofo++;
 		        Thread t = new Thread(new Mesa(sock));
 		        t.start();   
 		        System.out.println("Sente-se por favor. Iniciaremos o atendimento imediatamente!");
@@ -43,10 +41,60 @@ public class Mesa implements Runnable {
 	      this.csocket = csocket;
 	}
 	
-	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Iniciando o jantar");
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(csocket.getInputStream()));
+			PrintStream pstream = new PrintStream(csocket.getOutputStream());
+			boolean keepgoing = true;
+			while(keepgoing){
+				String line = in.readLine();
+				if(line.split(" ").length == 2){
+					String comando = line.split(" ")[0];
+					String recurso = line.split(" ")[1];
+					try {
+						if(comando.equals("release") && recurso.equals("1")){
+							mutexRecurso1.release();
+							pstream.println("true");
+						} else if(comando.equals("release") && recurso.equals("2")){
+							mutexRecurso2.release();
+							pstream.println("true");
+						} else if(comando.equals("release") && recurso.equals("3")){
+							mutexRecurso3.release();
+							pstream.println("true");
+						} else if(comando.equals("release") && recurso.equals("4")){
+							mutexRecurso4.release();
+							pstream.println("true");
+						} else if(comando.equals("release") && recurso.equals("5")){
+							mutexRecurso5.release();
+							pstream.println("true");	
+						} else if(comando.equals("acquire") && recurso.equals("1")){
+							boolean result = mutexRecurso1.tryAcquire(1, 1, TimeUnit.SECONDS);
+							pstream.println(" " + result);
+						} else if(comando.equals("acquire") && recurso.equals("2")){		
+							boolean result = mutexRecurso2.tryAcquire(1, 1, TimeUnit.SECONDS);
+							pstream.println(" " + result);
+						} else if(comando.equals("acquire") && recurso.equals("3")){		
+							boolean result = mutexRecurso3.tryAcquire(1, 1, TimeUnit.SECONDS);
+							pstream.println(" " + result);	
+						} else if(comando.equals("acquire") && recurso.equals("4")){		
+							boolean result = mutexRecurso4.tryAcquire(1, 1, TimeUnit.SECONDS);
+							pstream.println(" " + result);
+						} else if(comando.equals("acquire") && recurso.equals("5")){		
+							boolean result = mutexRecurso5.tryAcquire(1, 1, TimeUnit.SECONDS);
+							pstream.println(" " + result);
+						} else if (comando.equals("finish") && recurso.equals("0")){
+							keepgoing = false;
+							pstream.println("true");
+						}
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}	
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
