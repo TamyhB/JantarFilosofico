@@ -20,7 +20,7 @@ public class Mesa implements Runnable {
 		System.out.println("Ariando as panelas, abrindo as portas do restaurante! (Iniciando despachante) \n");
 		ServerSocket ssock;
 		try {
-			ssock = new ServerSocket(15699);
+			ssock = new ServerSocket(15695);
 			System.out.println("Bem vindos ao nosso restaurante, esperamos que tenham uma ótima noite e desfrutem de nossa ótima refeição! ");
 		    System.out.println("Estamos ouvindo a sua solicitação de pedido :) \n");
 			while (true) {
@@ -49,7 +49,9 @@ public class Mesa implements Runnable {
 			boolean keepgoing = true;
 			while(keepgoing){
 				String line = in.readLine();
-				if(line.split(" ").length == 2){
+				System.out.println(line);
+				if(line == null){System.out.println("Deu ruim!");}
+				else if(line.split(" ").length == 2){
 					String comando = line.split(" ")[0];
 					String recurso = line.split(" ")[1];
 					try {
