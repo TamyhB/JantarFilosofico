@@ -13,11 +13,11 @@ public class Mesa implements Runnable {
 	private static Semaphore mutexRecurso3 = new Semaphore(1);
 	private static Semaphore mutexRecurso4 = new Semaphore(1);
 	private static Semaphore mutexRecurso5 = new Semaphore(1);
-	String garfo1;
-	String garfo2;
-	String garfo3;
-	String garfo4;
-	String garfo5;
+	private static String garfo1;
+	private static String garfo2;
+	private static String garfo3;
+	private static String garfo4;
+	private static String garfo5;
 	
 	private Socket csocket;
 	
@@ -54,6 +54,7 @@ public class Mesa implements Runnable {
 			boolean keepgoing = true;
 			while(keepgoing){
 				String line = in.readLine();
+				//System.out.println(line);
 				if(line == null){System.out.println("Deu ruim!");}
 				else if(line.split(" ").length == 3){
 					String comando = line.split(" ")[0];
@@ -62,58 +63,69 @@ public class Mesa implements Runnable {
 					try {
 						if(comando.equals("release") && recurso.equals("1")){
 							mutexRecurso1.release();
+							garfo1 = "";
+							//System.out.println("Release");
 							pstream.println("true release 1 " + filosofo);
 						} else if(comando.equals("release") && recurso.equals("2")){
 							mutexRecurso2.release();
+							garfo2 = "";
+							//System.out.println("Release");
 							pstream.println("true release 2 " + filosofo);
 						} else if(comando.equals("release") && recurso.equals("3")){
 							mutexRecurso3.release();
+							garfo3 = "";
+							System.out.println("Release");
 							pstream.println("true release 3 " + filosofo);
 						} else if(comando.equals("release") && recurso.equals("4")){
 							mutexRecurso4.release();
+							garfo4 = "";
+							//System.out.println("Release");
 							pstream.println("true release 4 " + filosofo);
 						} else if(comando.equals("release") && recurso.equals("5")){
 							mutexRecurso5.release();
+							garfo5 = "";
+							//System.out.println("Release");
 							pstream.println("true release 5 " + filosofo);	
 						} else if(comando.equals("acquire") && recurso.equals("1")){
 							boolean result = mutexRecurso1.tryAcquire(1, 1, TimeUnit.SECONDS);
 							if(result == true){
 								garfo1 = filosofo;
-								System.out.println("Garfo 1 = " + garfo1);
+								//System.out.println("Garfo 1 = " + garfo1);
 							}
-							pstream.println(" " + result +" 1 Ac " + filosofo);
+							pstream.println("" + result +" 1 Ac " + filosofo);
 						} else if(comando.equals("acquire") && recurso.equals("2")){		
 							boolean result = mutexRecurso2.tryAcquire(1, 1, TimeUnit.SECONDS);
 							if(result == true){
 								garfo2 = filosofo;
-								System.out.println("Garfo 2 = " + garfo2);
+								//System.out.println("Garfo 2 = " + garfo2);
 							}
-							pstream.println(" " + result +" 2 Ac " + filosofo);
+							pstream.println("" + result +" 2 Ac " + filosofo);
 						} else if(comando.equals("acquire") && recurso.equals("3")){		
 							boolean result = mutexRecurso3.tryAcquire(1, 1, TimeUnit.SECONDS);
 							if(result == true){
 								garfo3 = filosofo;
-								System.out.println("Garfo 3 = " + garfo3);
+								//System.out.println("Garfo 3 = " + garfo3);
 							}
-							pstream.println(" " + result +" 3 Ac " + filosofo);	
+							pstream.println("" + result +" 3 Ac " + filosofo);	
 						} else if(comando.equals("acquire") && recurso.equals("4")){		
 							boolean result = mutexRecurso4.tryAcquire(1, 1, TimeUnit.SECONDS);
 							if(result == true){
 								garfo4 = filosofo;
-								System.out.println("Garfo 4 = " + garfo4);
+								//System.out.println("Garfo 4 = " + garfo4);
 							}
-							pstream.println(" " + result +" 4 Ac " + filosofo);
+							pstream.println("" + result +" 4 Ac " + filosofo);
 						} else if(comando.equals("acquire") && recurso.equals("5")){		
 							boolean result = mutexRecurso5.tryAcquire(1, 1, TimeUnit.SECONDS);
 							if(result == true){
 								garfo5 = filosofo;
-								System.out.println("Garfo 5 = " + garfo5);
+								//System.out.println("Garfo 5 = " + garfo5);
 							}
-							pstream.println(" " + result +" 5 Ac " + filosofo);
+							pstream.println("" + result +" 5 Ac " + filosofo);
 						} else if (comando.equals("finish") && recurso.equals("0")){
 							keepgoing = false;
 							pstream.println("true fim" + filosofo);
 						}
+						System.out.println("Garfos: " + garfo1 + garfo2 + garfo3 + garfo4 + garfo5);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
