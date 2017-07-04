@@ -32,7 +32,7 @@ public class Mesa implements Runnable {
 		    	Socket sock = ssock.accept();
 		        System.out.println("Pedido anotado! (conectado)");
 		        Thread t = new Thread(new Mesa(sock));
-		        t.start();   
+		        t.start();
 		        System.out.println("Sente-se por favor. Iniciaremos o atendimento imediatamente!");
 		    }
 		} catch (IOException e) {
@@ -122,14 +122,15 @@ public class Mesa implements Runnable {
 							}
 							pstream.println("" + result +" 5 Ac " + filosofo);
 						} else if (comando.equals("finish") && recurso.equals("0")){
-							keepgoing = false;
+							keepgoing = true;
 							pstream.println("true fim" + filosofo);
+
 						}
 						System.out.println("Garfos: " + garfo1 + garfo2 + garfo3 + garfo4 + garfo5);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-				}	
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
