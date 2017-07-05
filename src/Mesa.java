@@ -122,7 +122,7 @@ public class Mesa implements Runnable {
 							}
 							pstream.println("" + result +" 5 Ac " + filosofo);
 						} else if (comando.equals("finish") && recurso.equals("0")){
-							keepgoing = true;
+							//keepgoing = true;
 							pstream.println("true fim" + filosofo);
 
 						}

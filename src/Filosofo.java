@@ -17,6 +17,8 @@ public class Filosofo implements Runnable {
     private int maoEsq = 0;
     private int maoDir = 0;
     private String estado = "Estou pensando...";
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_GREEN = "\u001B[32m";
     int platao = 0;
     int socrates = 0;
     int descartes = 0;
@@ -61,24 +63,24 @@ public class Filosofo implements Runnable {
         Random rand = new Random();
 
         if (fil == 1) {
-            System.out.println("Platão esta comendo agora!");
+            System.out.println(ANSI_GREEN + "Platão esta comendo agora!" + ANSI_RESET );
             Thread.sleep(rand.nextInt(1000));
             msgs2 = new String[] { "release 1", "release 2", "finish 0" };
 
         } else if (fil == 2) {
-            System.out.println("Socrates esta comendo agora!");
+            System.out.println(ANSI_GREEN + "Socrates esta comendo agora!" + ANSI_RESET);
             Thread.sleep(rand.nextInt(1000));
             msgs2 = new String[] { "release 1", "release 2", "finish 0" };
         } else if (fil == 3) {
-            System.out.println("Descartes esta comendo agora!");
+            System.out.println(ANSI_GREEN + "Descartes esta comendo agora!" + ANSI_RESET);
             Thread.sleep(rand.nextInt(1000));
             msgs2 = new String[] { "release 1", "release 2", "finish 0" };
         } else if (fil == 4) {
-            System.out.println("Aristoteles esta comendo agora!");
+            System.out.println(ANSI_GREEN + "Aristoteles esta comendo agora!" + ANSI_RESET);
             Thread.sleep(rand.nextInt(1000));
             msgs2 = new String[] { "release 1", "release 2", "finish 0" };
         } else if (fil == 5) {
-            System.out.println("Tales esta comendo agora!");
+            System.out.println(ANSI_GREEN + "Tales esta comendo agora!" + ANSI_RESET);
             Thread.sleep(rand.nextInt(1000));
             msgs2 = new String[] { "release 1", "release 2", "finish 0" };
         }
@@ -152,7 +154,9 @@ public class Filosofo implements Runnable {
                     response = in.readLine();
                     System.out.println("echo " + this.toString() + ": " + response);
                     if (response.split(" ").length > 2) {
-                        if (response.split(" ")[0].equals("true") && response.split(" ")[2].equals("Ac") && response.split(" ")[3].equals("Platão")) {
+                        if (response.split(" ")[0].equals("true") &&
+                                (response.split(" ")[1].equals("1") || response.split(" ")[1].equals("2"))
+                                && response.split(" ")[2].equals("Ac") && response.split(" ")[3].equals("Platão")) {
                             platao++;
                             if (platao == 2) {
                                 this.comer(1);
@@ -164,7 +168,9 @@ public class Filosofo implements Runnable {
                                 System.out.println("-Platão:Vou pensar um pouco");
                             }
 
-                        } else if (response.split(" ")[0].equals("true") && response.split(" ")[3].equals("Socrates")) {
+                        } else if (response.split(" ")[0].equals("true") &&
+                                (response.split(" ")[1].equals("2") || response.split(" ")[1].equals("3"))
+                                && response.split(" ")[2].equals("Ac") && response.split(" ")[3].equals("Socrates")) {
                             socrates++;
                             if (socrates == 2) {
                                 this.comer(2);
@@ -172,9 +178,13 @@ public class Filosofo implements Runnable {
                                 pstream.println("release 2 Socrates");
                                 pstream.println("release 3 Socrates");
                                 pstream.println("finish 0 Socrates");
+                                pensar();
+                                System.out.println("-Socrates:Vou pensar um pouco");
                             }
 
-                        } else if (response.split(" ")[0].equals("true") && response.split(" ")[3].equals("Descartes")) {
+                        } else if (response.split(" ")[0].equals("true") &&
+                                (response.split(" ")[1].equals("3") || response.split(" ")[1].equals("4"))
+                                && response.split(" ")[2].equals("Ac") && response.split(" ")[3].equals("Descartes")) {
                             descartes++;
                             if (descartes == 2) {
                                 this.comer(3);
@@ -182,9 +192,13 @@ public class Filosofo implements Runnable {
                                 pstream.println("release 3 Descartes");
                                 pstream.println("release 4 Descartes");
                                 pstream.println("finish 0 Descartes");
+                                pensar();
+                                System.out.println("-Descartes:Vou pensar um pouco");
                             }
 
-                        } else if (response.split(" ")[0].equals("true") && response.split(" ")[3].equals("Aristoteles")) {
+                        } else if (response.split(" ")[0].equals("true") &&
+                                (response.split(" ")[1].equals("4") || response.split(" ")[1].equals("5"))
+                                && response.split(" ")[2].equals("Ac") && response.split(" ")[3].equals("Aristoteles")) {
                             aristoteles++;
                             if (aristoteles == 2) {
                                 this.comer(4);
@@ -192,9 +206,13 @@ public class Filosofo implements Runnable {
                                 pstream.println("release 4 Aristoteles");
                                 pstream.println("release 5 Aristoteles");
                                 pstream.println("finish 0 Aristoteles");
+                                pensar();
+                                System.out.println("-Aristoteles:Vou pensar um pouco");
                             }
 
-                        } else if (response.split(" ")[0].equals("true") && response.split(" ")[3].equals("Tales")) {
+                        } else if (response.split(" ")[0].equals("true") &&
+                                (response.split(" ")[1].equals("5") || response.split(" ")[1].equals("1"))
+                                && response.split(" ")[2].equals("Ac") && response.split(" ")[3].equals("Tales")) {
                             tales++;
                             if (tales == 2) {
                                 this.comer(5);
@@ -202,6 +220,8 @@ public class Filosofo implements Runnable {
                                 pstream.println("release 5 Tales");
                                 pstream.println("release 1 Tales");
                                 pstream.println("finish 0 Tales");
+                                pensar();
+                                System.out.println("-Tales:Vou pensar um pouco");
                             }
 
                         }
