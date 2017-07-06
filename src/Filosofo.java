@@ -7,11 +7,6 @@ import java.net.UnknownHostException;
 import java.util.Random;
 
 public class Filosofo implements Runnable {
-    private boolean gotGarfo1;
-    private boolean gotGarfo2;
-    private boolean gotGarfo3;
-    private boolean gotGarfo4;
-    private boolean gotGarfo5;
     private String msgs[];
     private String msgs2[];
     private int maoEsq = 0;
@@ -25,21 +20,6 @@ public class Filosofo implements Runnable {
     int aristoteles = 0;
     int tales = 0;
 
-    public int getMaoEsq() {
-        return maoEsq;
-    }
-
-    public void setMaoEsq(int maoEsq) {
-        this.maoEsq = maoEsq;
-    }
-
-    public int getMaoDir() {
-        return maoDir;
-    }
-
-    public void setMaoDir(int maoDir) {
-        this.maoDir = maoDir;
-    }
 
     public String getEstado() {
         return estado;
@@ -50,16 +30,6 @@ public class Filosofo implements Runnable {
     }
 
     public void comer(int fil) throws InterruptedException {
-		/*
-		 * if(this.getMaoEsq() != 0 && this.getMaoDir() == 0){
-		 * System.out.println(
-		 * "Preciso do garfo da mão direita para começar a comer :(");
-		 * this.setEstado("Estou esperando o garfo"); } if(this.getMaoDir() != 0
-		 * && this.getMaoEsq() == 0){ System.out.println(
-		 * "Preciso do garfo da mão esquerda para começar a comer :(");
-		 * this.setEstado("Estou esperando o garfo"); } if(this.getMaoEsq() != 0
-		 * && this.getMaoDir() != 0){ setEstado("Estou comendo..."); }
-		 */
         Random rand = new Random();
 
         if (fil == 1) {
@@ -119,11 +89,6 @@ public class Filosofo implements Runnable {
 
     public Filosofo(String msgs[]) {
         this.msgs = msgs;
-        gotGarfo1 = false;
-        gotGarfo2 = false;
-        gotGarfo3 = false;
-        gotGarfo4 = false;
-        gotGarfo5 = false;
     }
 
     public void run() {
@@ -141,15 +106,6 @@ public class Filosofo implements Runnable {
              BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));) {
             while (true) {
                 for (String msg : msgs) {
-
-                    // if(msgs[m].split(" ")[0].equals("release")){
-                    // System.out.println("send liberar");
-                    // sendReleaseMsg(msgs[m], pstream, in);
-                    // }
-                    // if(msgs[m].split(" ")[0].equals("acquire")){
-                    // System.out.println("send adquirir");
-                    // sendAcquireMsg(msgs[m], pstream, in);
-                    // }
                     pstream.println(msg);
                     response = in.readLine();
                     System.out.println("echo " + this.toString() + ": " + response);
